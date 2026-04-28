@@ -1739,4 +1739,7 @@ You've completed the Building REST APIs course. You now have the skills to build
   console.log("  Teams: 1 (with 5 coupons)");
 }
 
-seed().catch(console.error);
+seed().catch((err) => {
+  console.error(err);
+  process.exit(1);
+});
