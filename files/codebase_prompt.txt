@@ -1,0 +1,48 @@
+I downloaded a GitHub codebase for a course learning platform. The app runs with:
+
+- npm install
+- npm run db:seed
+
+I also see a `data.db` file in the project root.
+
+Please read through the codebase and explain it to me step by step like I am onboarding as a new developer.
+
+Break your explanation into clear sections:
+
+1. Overall Architecture
+- What frontend framework is used
+- What backend framework is used
+- How the app starts and runs
+
+2. Database
+- What `data.db` is (SQLite or other)
+- How the schema is defined
+- What tables exist
+- What data `npm run db:seed` inserts
+
+3. Authentication / Users
+- How users log in
+- How the app identifies different users
+- How user roles/access are handled
+
+4. Data Flow
+- How frontend requests data
+- Which API routes fetch from the DB
+- How data is transformed before showing in UI
+
+5. Personalization
+- How different users see different courses/content/progress
+- Where that logic exists in the code
+
+6. Key Files to Read First
+- Most important files/folders for understanding the project
+
+7. Step-by-Step Runtime Flow
+- What happens when I open the app
+- What happens when a user signs in
+- What happens when a course page loads
+
+8. Developer Learning Path
+- In what order should I read the codebase to understand it fastest
+
+Please be specific and reference actual files/functions after scanning the codebase.

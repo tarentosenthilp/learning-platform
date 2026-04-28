@@ -1,0 +1,14 @@
+PRAGMA foreign_keys = OFF;
+DELETE FROM video_watch_events WHERE lesson_id IN (SELECT id FROM lessons WHERE module_id IN (SELECT id FROM modules WHERE course_id = 3));
+DELETE FROM quiz_answers WHERE attempt_id IN (SELECT id FROM quiz_attempts WHERE quiz_id IN (SELECT id FROM quizzes WHERE lesson_id IN (SELECT id FROM lessons WHERE module_id IN (SELECT id FROM modules WHERE course_id = 3))));
+DELETE FROM quiz_attempts WHERE quiz_id IN (SELECT id FROM quizzes WHERE lesson_id IN (SELECT id FROM lessons WHERE module_id IN (SELECT id FROM modules WHERE course_id = 3)));
+DELETE FROM quiz_options WHERE question_id IN (SELECT id FROM quiz_questions WHERE quiz_id IN (SELECT id FROM quizzes WHERE lesson_id IN (SELECT id FROM lessons WHERE module_id IN (SELECT id FROM modules WHERE course_id = 3))));
+DELETE FROM quiz_questions WHERE quiz_id IN (SELECT id FROM quizzes WHERE lesson_id IN (SELECT id FROM lessons WHERE module_id IN (SELECT id FROM modules WHERE course_id = 3)));
+DELETE FROM quizzes WHERE lesson_id IN (SELECT id FROM lessons WHERE module_id IN (SELECT id FROM modules WHERE course_id = 3));
+DELETE FROM lesson_progress WHERE lesson_id IN (SELECT id FROM lessons WHERE module_id IN (SELECT id FROM modules WHERE course_id = 3));
+DELETE FROM lessons WHERE module_id IN (SELECT id FROM modules WHERE course_id = 3);
+DELETE FROM modules WHERE course_id = 3;
+DELETE FROM enrollments WHERE course_id = 3;
+DELETE FROM purchases WHERE course_id = 3;
+DELETE FROM courses WHERE id = 3;
+PRAGMA foreign_keys = ON;
