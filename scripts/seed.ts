@@ -1172,6 +1172,7 @@ You've completed the Building REST APIs course. You now have the skills to build
       {
         "title": "What is SAP and Where Does ABAP Fit?",
         "duration": 12,
+        "videoUrl": "https://youtu.be/EqSizBH2n0w",
         "content": "## What is SAP?\n\nSAP (Systems, Applications and Products) is the world's leading ERP platform, used by companies across manufacturing, retail, finance, logistics, and more.\n\n### The SAP Technology Stack\n\n- **SAP BASIS** — the infrastructure layer (OS, DB, application server)\n- **ABAP** — the programming language for customization and development\n- **SAP Fiori / UI5** — the modern UI layer\n- **SAP HANA** — the in-memory database platform\n\n### What is ABAP?\n\nABAP (Advanced Business Application Programming) is a high-level, interpreted language created by SAP in the 1980s. It is still the primary language for:\n- Custom reports and data extracts\n- User exits, BADIs, and enhancement spots\n- Custom transactions and background jobs"
       },
       {
@@ -1311,6 +1312,7 @@ You've completed the Building REST APIs course. You now have the skills to build
           moduleId: mod.id,
           title: lessonData.title,
           content: lessonData.content,
+          videoUrl: ("videoUrl" in lessonData ? lessonData.videoUrl : null) ?? null,
           position: li + 1,
           durationMinutes: lessonData.duration,
           createdAt: daysAgo(30 - mi),
