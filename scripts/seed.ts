@@ -1144,6 +1144,98 @@ You've completed the Building REST APIs course. You now have the skills to build
     `Created course "${course2.title}" with ${c2Modules.length} modules and ${course2LessonIds.length} lessons.`
   );
 
+  // ─── Course 3 ───
+
+  const [course3] = db
+    .insert(schema.courses)
+    .values({
+      title: "SAP ABAP Fundamentals and Core Programming Concepts",
+      slug: slugify("SAP ABAP Fundamentals and Core Programming Concepts"),
+      description: "Master the foundations of SAP's proprietary programming language. Learn how to write reports, function modules, and interact with the database using Open SQL.",
+      salesCopy: `## Enterprise Programming at Scale
+
+SAP ABAP (Advanced Business Application Programming) is the backbone of the world's largest enterprise systems. 
+
+In this comprehensive fundamental course, you will learn the core concepts of ABAP syntax, data dictionary, modularization, and Open SQL. You'll go from writing your first "Hello World" report to building complex, production-ready enterprise programs.`,
+      instructorId: instructor1.id,
+      categoryId: catBySlug["programming"].id,
+      status: CourseStatus.Published,
+      coverImageUrl: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=2940&auto=format&fit=crop",
+      price: 14999,
+      createdAt: daysAgo(30),
+      updatedAt: daysAgo(5),
+    })
+    .returning()
+    .all();
+
+  const c3Modules = [
+    {
+      title: "Introduction to ABAP",
+      lessons: [
+        {
+          title: "What is SAP ABAP?",
+          duration: 15,
+          content: `## SAP Architecture
+Learn about the 3-tier architecture of SAP systems and where ABAP runs.`,
+        },
+        {
+          title: "The ABAP Workbench",
+          duration: 20,
+          content: `## Navigating SE80
+An introduction to the ABAP Workbench and object navigator.`,
+        }
+      ]
+    },
+    {
+      title: "ABAP Data Dictionary",
+      lessons: [
+        {
+          title: "Tables and Data Elements",
+          duration: 25,
+          content: `## Designing Database Tables
+How to create transparent tables, domains, and data elements (SE11).`,
+        }
+      ]
+    }
+  ];
+
+  const course3LessonIds: number[] = [];
+
+  for (let mi = 0; mi < c3Modules.length; mi++) {
+    const modData = c3Modules[mi];
+    const [mod] = db
+      .insert(schema.modules)
+      .values({
+        courseId: course3.id,
+        title: modData.title,
+        position: mi + 1,
+        createdAt: daysAgo(30 - mi),
+      })
+      .returning()
+      .all();
+
+    for (let li = 0; li < modData.lessons.length; li++) {
+      const lessonData = modData.lessons[li];
+      const [lesson] = db
+        .insert(schema.lessons)
+        .values({
+          moduleId: mod.id,
+          title: lessonData.title,
+          content: lessonData.content,
+          position: li + 1,
+          durationMinutes: lessonData.duration,
+          createdAt: daysAgo(30 - mi),
+        })
+        .returning()
+        .all();
+      course3LessonIds.push(lesson.id);
+    }
+  }
+
+  console.log(
+    `Created course "${course3.title}" with ${c3Modules.length} modules and ${course3LessonIds.length} lessons.`
+  );
+
   // ─── Quizzes ───
   // Add quizzes to some lessons in both courses
 
@@ -1731,7 +1823,7 @@ You've completed the Building REST APIs course. You now have the skills to build
   console.log("  Users: 9 (1 admin, 2 instructors, 6 students)");
   console.log("  Categories: 5");
   console.log(
-    `  Courses: 2 (${course1LessonIds.length} + ${course2LessonIds.length} lessons)`
+    `  Courses: 3 (${course1LessonIds.length} + ${course2LessonIds.length} + ${course3LessonIds.length} lessons)`
   );
   console.log("  Quizzes: 3");
   console.log("  Enrollments: 7");
