@@ -52,3 +52,19 @@ Good platforms for deploying full-stack SSR apps like this include:
 
 If your goal is simply to host a static portfolio or basic React app on GitHub pages, that workflow file is perfect! But for this full-stack corporate learning platform, we need a real backend server.
 
+Can I launch this app in lovable?
+
+
+
+
+The short answer is: No, not without completely rewriting the backend of the application.
+
+Lovable (lovable.dev) is an incredible AI building platform, but it is architecturally designed for a very specific type of application: Client-side React Single Page Applications (SPAs) that connect to an external Backend-as-a-Service like Supabase.
+
+Here is why TLabs Learning Hub is incompatible with Lovable's hosting/editing environment:
+
+The Database: This app uses a local SQLite file (data.db) via better-sqlite3 and Drizzle ORM. Lovable does not support persistent local server file systems. To use Lovable, you would have to completely rip out SQLite and rewrite all database interactions to use Supabase.
+The Server: This app uses React Router v7 with Server-Side Rendering (SSR). It relies on a running Node.js server to execute loader and action functions securely on the backend before sending HTML to the browser. Lovable's native hosting is built for static client-rendered apps.
+Recommendation
+If you want to continue using AI to edit and build out this platform, your best workflow is exactly what you are doing right now! Use a local AI coding assistant (like Claude Code, Cursor, or this interface) to write the code locally, and then deploy it to a platform like Render or Railway which are built specifically to handle full-stack Node.js + SQLite applications.
+
