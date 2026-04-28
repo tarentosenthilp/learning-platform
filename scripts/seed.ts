@@ -1144,24 +1144,21 @@ You've completed the Building REST APIs course. You now have the skills to build
     `Created course "${course2.title}" with ${c2Modules.length} modules and ${course2LessonIds.length} lessons.`
   );
 
-  // ─── Course 3 ───
+  
+  // ─── Course 3 (SAP ABAP) ───
 
   const [course3] = db
     .insert(schema.courses)
     .values({
       title: "SAP ABAP Fundamentals and Core Programming Concepts",
-      slug: slugify("SAP ABAP Fundamentals and Core Programming Concepts"),
-      description: "Master the foundations of SAP's proprietary programming language. Learn how to write reports, function modules, and interact with the database using Open SQL.",
-      salesCopy: `## Enterprise Programming at Scale
-
-SAP ABAP (Advanced Business Application Programming) is the backbone of the world's largest enterprise systems. 
-
-In this comprehensive fundamental course, you will learn the core concepts of ABAP syntax, data dictionary, modularization, and Open SQL. You'll go from writing your first "Hello World" report to building complex, production-ready enterprise programs.`,
+      slug: "sap-abap-fundamentals",
+      description: "Master SAP ABAP from the ground up. Learn the core programming language of the SAP ecosystem — data types, internal tables, Open SQL, modularization, and object-oriented ABAP. Ideal for developers entering the SAP world or consultants who want to write and understand custom ABAP code.",
+      salesCopy: undefined,
       instructorId: instructor1.id,
       categoryId: catBySlug["programming"].id,
       status: CourseStatus.Published,
-      coverImageUrl: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=2940&auto=format&fit=crop",
-      price: 14999,
+      coverImageUrl: "/images/abap.jpeg",
+      price: 0,
       createdAt: daysAgo(30),
       updatedAt: daysAgo(5),
     })
@@ -1169,35 +1166,127 @@ In this comprehensive fundamental course, you will learn the core concepts of AB
     .all();
 
   const c3Modules = [
-    {
-      title: "Introduction to ABAP",
-      lessons: [
-        {
-          title: "What is SAP ABAP?",
-          duration: 15,
-          content: `## SAP Architecture
-Learn about the 3-tier architecture of SAP systems and where ABAP runs.`,
-        },
-        {
-          title: "The ABAP Workbench",
-          duration: 20,
-          content: `## Navigating SE80
-An introduction to the ABAP Workbench and object navigator.`,
-        }
-      ]
-    },
-    {
-      title: "ABAP Data Dictionary",
-      lessons: [
-        {
-          title: "Tables and Data Elements",
-          duration: 25,
-          content: `## Designing Database Tables
-How to create transparent tables, domains, and data elements (SE11).`,
-        }
-      ]
-    }
-  ];
+  {
+    "title": "Introduction to SAP and the ABAP Environment",
+    "lessons": [
+      {
+        "title": "What is SAP and Where Does ABAP Fit?",
+        "duration": 12,
+        "content": "## What is SAP?\n\nSAP (Systems, Applications and Products) is the world's leading ERP platform, used by companies across manufacturing, retail, finance, logistics, and more.\n\n### The SAP Technology Stack\n\n- **SAP BASIS** — the infrastructure layer (OS, DB, application server)\n- **ABAP** — the programming language for customization and development\n- **SAP Fiori / UI5** — the modern UI layer\n- **SAP HANA** — the in-memory database platform\n\n### What is ABAP?\n\nABAP (Advanced Business Application Programming) is a high-level, interpreted language created by SAP in the 1980s. It is still the primary language for:\n- Custom reports and data extracts\n- User exits, BADIs, and enhancement spots\n- Custom transactions and background jobs"
+      },
+      {
+        "title": "Navigating the SAP GUI and ABAP Workbench",
+        "duration": 15,
+        "content": "## The SAP GUI\n\nThe SAP GUI is the desktop client used to interact with an SAP system.\n\n### Key T-codes for ABAP Developers\n\n| T-code | Purpose |\n|---|---|\n| SE38 | ABAP Editor — create and edit programs |\n| SE80 | Object Navigator — browse all development objects |\n| SE11 | ABAP Dictionary — view and edit table definitions |\n| SE37 | Function Builder — create and test function modules |\n| SE24 | Class Builder — create and manage ABAP classes |\n| SM37 | Background Job Monitor |\n| ST05 | SQL Trace — debug database queries |"
+      },
+      {
+        "title": "Creating Your First ABAP Program",
+        "duration": 18,
+        "content": "## Writing Hello World in ABAP\n\nEvery ABAP program starts with a REPORT statement followed by the program logic.\n\n    REPORT z_hello_world.\n    WRITE 'Hello, SAP World!'.\n\n### Program Structure\n\n    REPORT z_my_first_program.\n\n    DATA lv_message TYPE string.\n    lv_message = 'Welcome to ABAP'.\n    WRITE lv_message.\n\n### ABAP Naming Conventions\n\n- Programs start with Z or Y (customer namespace)\n- Local variables: lv_ prefix\n- Global variables: gv_ prefix\n- Structures: ls_ / gs_ prefix\n- Internal tables: lt_ / gt_ prefix"
+      },
+      {
+        "title": "The ABAP Dictionary (SE11) — Tables and Data Elements",
+        "duration": 14,
+        "content": "## ABAP Dictionary Overview\n\nThe ABAP Dictionary (SE11) is the central metadata repository for all data objects in SAP — tables, views, data elements, domains, and structures.\n\n### Common SAP Tables Every ABAP Developer Must Know\n\n| Table | Content |\n|---|---|\n| MARA | General material data |\n| KNA1 | Customer master |\n| LFA1 | Vendor master |\n| VBAK | Sales order header |\n| BKPF | Accounting document header |\n| USR02 | User login data |\n\n### Viewing Table Structure\n\nOpen SE11, enter table name, then Display. You will see field names, key fields, and technical settings."
+      }
+    ]
+  },
+  {
+    "title": "ABAP Language Fundamentals",
+    "lessons": [
+      {
+        "title": "Data Types, Variables, and Constants",
+        "duration": 16,
+        "content": "## Elementary Data Types in ABAP\n\nABAP has a rich set of built-in data types:\n\n| Type | Description | Example |\n|---|---|---|\n| I | Integer | DATA lv_count TYPE i. |\n| F | Floating point | DATA lv_rate TYPE f. |\n| C | Character (fixed length) | DATA lv_name TYPE c LENGTH 30. |\n| N | Numeric string | DATA lv_matnr TYPE n LENGTH 18. |\n| D | Date (YYYYMMDD) | DATA lv_date TYPE d. |\n| T | Time (HHMMSS) | DATA lv_time TYPE t. |\n| STRING | Variable-length string | DATA lv_text TYPE string. |\n| P | Packed decimal | DATA lv_amount TYPE p DECIMALS 2. |\n\n### Dictionary-Based Types\n\nAlways prefer dictionary-based typing over raw types for compatibility:\n\n    DATA lv_material TYPE mara-matnr.\n    DATA lv_customer TYPE kna1-kunnr."
+      },
+      {
+        "title": "Control Structures — IF, CASE, LOOP, DO, WHILE",
+        "duration": 14,
+        "content": "## Conditional Logic\n\n    IF lv_score >= 90.\n      WRITE 'Grade: A'.\n    ELSEIF lv_score >= 75.\n      WRITE 'Grade: B'.\n    ELSE.\n      WRITE 'Grade: C'.\n    ENDIF.\n\n### CASE Statement\n\n    CASE lv_status.\n      WHEN 'A'.\n        WRITE 'Active'.\n      WHEN 'I'.\n        WRITE 'Inactive'.\n      WHEN OTHERS.\n        WRITE 'Unknown'.\n    ENDCASE.\n\n### Loops\n\n    DO 5 TIMES.\n      WRITE sy-index.\n    ENDDO.\n\n    WHILE lv_counter < 10.\n      lv_counter = lv_counter + 1.\n    ENDWHILE."
+      },
+      {
+        "title": "String Operations and Formatting Output",
+        "duration": 13,
+        "content": "## Working with Strings\n\n    DATA lv_first TYPE string VALUE 'SAP'.\n    DATA lv_second TYPE string VALUE 'ABAP'.\n    DATA lv_result TYPE string.\n\n    CONCATENATE lv_first ' ' lv_second INTO lv_result.\n    \" Result: 'SAP ABAP'\n\n    lv_result = lv_first && ' ' && lv_second.  \" Modern syntax\n\n### String Functions\n\n    DATA(lv_length) = strlen( lv_result ).\n    DATA(lv_upper)  = to_upper( lv_result ).\n    DATA(lv_lower)  = to_lower( lv_result ).\n\n### Formatted Output with WRITE\n\n    WRITE: / 'Material:', lv_matnr,\n           / 'Quantity:', lv_qty,\n           / 'Date:',     sy-datum.\n\nThe slash (/) forces a new line. sy-datum is the system date."
+      },
+      {
+        "title": "Structures and Work Areas",
+        "duration": 15,
+        "content": "## Structures in ABAP\n\nA structure is a composite data type — a group of fields treated as one unit (like a row of a database table).\n\n### Declaring a Structure\n\n    DATA ls_customer TYPE kna1.        \" Structure based on table KNA1\n    ls_customer-kunnr = '0000001000'. \" Access field with hyphen\n    ls_customer-name1 = 'Acme Corp'.\n\n### Defining a Custom Structure\n\n    TYPES: BEGIN OF ty_employee,\n             emp_id   TYPE i,\n             name     TYPE string,\n             salary   TYPE p DECIMALS 2,\n           END OF ty_employee.\n\n    DATA ls_employee TYPE ty_employee.\n    ls_employee-emp_id = 1001.\n    ls_employee-name   = 'John Smith'.\n\n### The Work Area Pattern\n\nWhen reading from the database, you always read INTO a structure (the work area):\n\n    SELECT SINGLE * FROM mara INTO ls_mara\n      WHERE matnr = lv_material."
+      }
+    ]
+  },
+  {
+    "title": "Database Programming with Open SQL",
+    "lessons": [
+      {
+        "title": "Open SQL Basics — SELECT Statements",
+        "duration": 20,
+        "content": "## Open SQL\n\nOpen SQL is ABAP's database-independent SQL layer. It translates to the underlying database (HANA, Oracle, SQL Server) automatically.\n\n### SELECT SINGLE — Fetch One Row\n\n    DATA ls_customer TYPE kna1.\n\n    SELECT SINGLE kunnr name1 land1\n      FROM kna1\n      INTO CORRESPONDING FIELDS OF ls_customer\n      WHERE kunnr = '0000001000'.\n\n    IF sy-subrc = 0.\n      WRITE ls_customer-name1.\n    ELSE.\n      WRITE 'Customer not found'.\n    ENDIF.\n\n### sy-subrc — The Return Code\n\nAfter every SELECT, check sy-subrc:\n- 0 = rows found\n- 4 = no rows found\n\n### SELECT INTO TABLE — Fetch Multiple Rows\n\n    DATA lt_customers TYPE TABLE OF kna1.\n\n    SELECT kunnr name1 land1\n      FROM kna1\n      INTO TABLE lt_customers\n      WHERE land1 = 'US'.\n\n    WRITE: / 'Found:', sy-dbcnt, 'customers'."
+      },
+      {
+        "title": "JOINs, Aggregate Functions, and Subqueries",
+        "duration": 18,
+        "content": "## Joining Tables in Open SQL\n\n    SELECT v~vbeln v~kunnr k~name1\n      FROM vbak AS v\n      INNER JOIN kna1 AS k ON v~kunnr = k~kunnr\n      INTO TABLE @DATA(lt_orders)\n      WHERE v~audat >= @lv_date_from.\n\n### Aggregate Functions\n\n    SELECT COUNT(*) FROM vbak\n      INTO lv_order_count\n      WHERE audat = sy-datum.\n\n    SELECT matnr SUM( labst ) AS total_stock\n      FROM mard\n      INTO TABLE @DATA(lt_stock)\n      GROUP BY matnr\n      HAVING SUM( labst ) > 0.\n\n### Modern ABAP 7.40+ Inline Declarations\n\n    SELECT matnr maktx\n      FROM makt\n      INTO TABLE @DATA(lt_desc)\n      WHERE spras = 'EN'.\n\nThe @DATA() inline declaration creates the table automatically — no need to declare lt_desc first."
+      },
+      {
+        "title": "INSERT, UPDATE, DELETE and Database Commits",
+        "duration": 16,
+        "content": "## Modifying Database Records\n\n### INSERT\n\n    DATA ls_ztable TYPE zmy_custom_table.\n    ls_ztable-id     = '001'.\n    ls_ztable-name   = 'Test Record'.\n    ls_ztable-status = 'A'.\n\n    INSERT zmy_custom_table FROM ls_ztable.\n    IF sy-subrc <> 0.\n      MESSAGE 'Insert failed' TYPE 'E'.\n    ENDIF.\n\n### UPDATE\n\n    UPDATE zmy_custom_table SET status = 'I'\n      WHERE id = '001'.\n\n### DELETE\n\n    DELETE FROM zmy_custom_table WHERE status = 'I'.\n\n### MODIFY (INSERT or UPDATE)\n\n    MODIFY zmy_custom_table FROM ls_ztable.\n\n### Database Commits\n\nABAP does NOT auto-commit. You must explicitly commit:\n\n    COMMIT WORK.         \" Commit all changes\n    ROLLBACK WORK.       \" Undo all uncommitted changes\n\nBest practice: never COMMIT inside a loop."
+      }
+    ]
+  },
+  {
+    "title": "Internal Tables and Data Processing",
+    "lessons": [
+      {
+        "title": "Internal Tables — Types, Declaration, and Population",
+        "duration": 22,
+        "content": "## What Are Internal Tables?\n\nInternal tables are temporary, in-memory tables that exist only during program execution. They are the single most important concept in ABAP — used to hold dataset results, process data in batches, and pass data between modules.\n\n### Three Types of Internal Tables\n\n| Type | Key | Use Case |\n|---|---|---|\n| STANDARD TABLE | None (array) | Sequential processing, LOOP AT |\n| SORTED TABLE | Defined key, always sorted | Binary search, READ TABLE |\n| HASHED TABLE | Unique hash key | Fast single-record lookup |\n\n### Declaration\n\n    TYPES: ty_customers TYPE TABLE OF kna1.\n    DATA: lt_customers TYPE TABLE OF kna1,\n          ls_customer  TYPE kna1.\n\n### Populating Internal Tables\n\n    \" From database\n    SELECT * FROM kna1 INTO TABLE lt_customers WHERE land1 = 'DE'.\n\n    \" Manually with APPEND\n    ls_customer-kunnr = '9999'.\n    ls_customer-name1 = 'Test'.\n    APPEND ls_customer TO lt_customers.\n\n    \" Inline with VALUE\n    DATA(lt_numbers) = VALUE int4_table( ( 1 ) ( 2 ) ( 3 ) )."
+      },
+      {
+        "title": "LOOP AT, READ TABLE, and Table Expressions",
+        "duration": 20,
+        "content": "## Looping Over Internal Tables\n\n    LOOP AT lt_customers INTO ls_customer.\n      WRITE: / ls_customer-kunnr, ls_customer-name1.\n    ENDLOOP.\n\n### Filtering in the Loop\n\n    LOOP AT lt_customers INTO ls_customer WHERE land1 = 'US'.\n      WRITE ls_customer-name1.\n    ENDLOOP.\n\n### READ TABLE — Find a Specific Row\n\n    READ TABLE lt_customers INTO ls_customer\n      WITH KEY kunnr = '0000001000'.\n    IF sy-subrc = 0.\n      WRITE ls_customer-name1.\n    ENDIF.\n\n### Modern Table Expressions (ABAP 7.40+)\n\n    \" Read directly without a work area\n    DATA(ls_found) = lt_customers[ kunnr = '0000001000' ].\n\n    \" Check existence\n    IF line_exists( lt_customers[ kunnr = '0000001000' ] ).\n      WRITE 'Found'.\n    ENDIF.\n\n    \" Get count\n    DATA(lv_count) = lines( lt_customers )."
+      },
+      {
+        "title": "Sorting, Deleting Duplicates, and Collecting",
+        "duration": 17,
+        "content": "## Sorting Internal Tables\n\n    SORT lt_customers BY land1 name1.\n    SORT lt_customers BY kunnr DESCENDING.\n\n### Deleting Rows\n\n    \" Delete a specific row by key\n    DELETE lt_customers WHERE land1 = 'XX'.\n\n    \" Delete the current row inside a LOOP\n    LOOP AT lt_customers INTO ls_customer.\n      IF ls_customer-name1 IS INITIAL.\n        DELETE lt_customers.\n      ENDIF.\n    ENDLOOP.\n\n### Removing Duplicates\n\n    SORT lt_customers BY land1.\n    DELETE ADJACENT DUPLICATES FROM lt_customers COMPARING land1.\n\n### COLLECT — Aggregate by Key\n\nCOLLECT sums numeric fields for rows with the same key:\n\n    TYPES: BEGIN OF ty_summary,\n             land1 TYPE kna1-land1,\n             count TYPE i,\n           END OF ty_summary.\n\n    DATA lt_summary TYPE TABLE OF ty_summary.\n    DATA ls_summary TYPE ty_summary.\n\n    LOOP AT lt_customers INTO ls_customer.\n      ls_summary-land1 = ls_customer-land1.\n      ls_summary-count = 1.\n      COLLECT ls_summary INTO lt_summary.\n    ENDLOOP."
+      },
+      {
+        "title": "ALV Grid Reports — Displaying Data Professionally",
+        "duration": 19,
+        "content": "## What is ALV?\n\nALV (ABAP List Viewer) is the standard SAP framework for displaying tabular data in reports. Every professional SAP report uses ALV — it provides sorting, filtering, export to Excel, and column configuration out of the box.\n\n### Simple ALV with CL_SALV_TABLE\n\n    DATA lt_data TYPE TABLE OF mara.\n    SELECT matnr mtart matkl meins\n      FROM mara INTO TABLE lt_data\n      UP TO 100 ROWS.\n\n    TRY.\n      DATA lo_alv TYPE REF TO cl_salv_table.\n      cl_salv_table=>factory(\n        IMPORTING r_salv_table = lo_alv\n        CHANGING  t_table      = lt_data ).\n\n      lo_alv->display( ).\n\n    CATCH cx_salv_msg INTO DATA(lx_msg).\n      MESSAGE lx_msg->get_text( ) TYPE 'E'.\n    ENDTRY.\n\nThis 12-line program produces a fully interactive, professional-looking ALV grid report."
+      }
+    ]
+  },
+  {
+    "title": "Modularization and Object-Oriented ABAP",
+    "lessons": [
+      {
+        "title": "Subroutines (FORM/ENDFORM) and Function Modules",
+        "duration": 16,
+        "content": "## Subroutines\n\nSubroutines are local reusable code blocks within a single program.\n\n    PERFORM display_message USING 'Hello' 'World'.\n\n    FORM display_message\n      USING pv_word1 TYPE string\n            pv_word2 TYPE string.\n      WRITE: pv_word1, pv_word2.\n    ENDFORM.\n\nNote: Subroutines are legacy. Prefer methods in modern ABAP.\n\n## Function Modules\n\nFunction modules are global, reusable procedures stored in Function Groups. They can be called from any ABAP program.\n\n    CALL FUNCTION 'POPUP_TO_CONFIRM'\n      EXPORTING\n        titlebar       = 'Confirm Action'\n        text_question  = 'Are you sure?'\n      IMPORTING\n        answer         = lv_answer.\n\n### Key Difference\n\n- Subroutines: local to one program\n- Function modules: global, callable from anywhere, can be RFC-enabled (called remotely)"
+      },
+      {
+        "title": "Introduction to Object-Oriented ABAP — Classes and Methods",
+        "duration": 22,
+        "content": "## Why Object-Oriented ABAP?\n\nModern SAP development (BAdIs, Fiori, S/4HANA extensions) is class-based. Understanding OO ABAP is essential for working with any modern SAP system.\n\n## Defining a Class\n\n    CLASS zcl_employee DEFINITION.\n      PUBLIC SECTION.\n        DATA mv_name   TYPE string READ-ONLY.\n        DATA mv_salary TYPE p DECIMALS 2 READ-ONLY.\n        METHODS constructor IMPORTING iv_name   TYPE string\n                                       iv_salary TYPE p DECIMALS 2.\n        METHODS get_info RETURNING VALUE(rv_info) TYPE string.\n    ENDCLASS.\n\n    CLASS zcl_employee IMPLEMENTATION.\n      METHOD constructor.\n        mv_name   = iv_name.\n        mv_salary = iv_salary.\n      ENDMETHOD.\n\n      METHOD get_info.\n        rv_info = mv_name && ' earns ' && mv_salary.\n      ENDMETHOD.\n    ENDCLASS.\n\n## Using the Class\n\n    DATA lo_emp TYPE REF TO zcl_employee.\n    lo_emp = NEW zcl_employee( iv_name = 'Alice' iv_salary = '75000' ).\n    WRITE lo_emp->get_info( )."
+      },
+      {
+        "title": "Inheritance, Interfaces, and Exception Classes",
+        "duration": 20,
+        "content": "## Inheritance in ABAP\n\n    CLASS zcl_manager DEFINITION INHERITING FROM zcl_employee.\n      PUBLIC SECTION.\n        DATA mv_team_size TYPE i.\n        METHODS constructor IMPORTING iv_name      TYPE string\n                                       iv_salary    TYPE p DECIMALS 2\n                                       iv_team_size TYPE i.\n        METHODS get_info REDEFINITION.\n    ENDCLASS.\n\n## Interfaces\n\nInterfaces define a contract — any class implementing an interface must provide those methods.\n\n    INTERFACE zif_printable.\n      METHODS print.\n    ENDINTERFACE.\n\n    CLASS zcl_report DEFINITION.\n      PUBLIC SECTION.\n        INTERFACES zif_printable.\n    ENDCLASS.\n\n    CLASS zcl_report IMPLEMENTATION.\n      METHOD zif_printable~print.\n        WRITE 'Printing report...'.\n      ENDMETHOD.\n    ENDCLASS.\n\n## Exception Classes\n\nModern error handling in ABAP uses exception classes:\n\n    TRY.\n      DATA(lv_result) = 100 / lv_divisor.\n    CATCH cx_sy_zerodivide INTO DATA(lx_error).\n      MESSAGE lx_error->get_text( ) TYPE 'W'.\n    ENDTRY."
+      },
+      {
+        "title": "BAdIs and Enhancement Framework — Extending SAP Without Modifying Core",
+        "duration": 18,
+        "content": "## What are BAdIs?\n\nBAdIs (Business Add-Ins) are the SAP-approved way to add custom logic to standard SAP programs without modifying SAP's source code. This is critical — modifications to standard SAP are overwritten during upgrades.\n\n### The Enhancement Philosophy\n\nNever modify SAP standard code. Instead:\n1. Find the BAdI for the process you want to enhance\n2. Create an implementation class\n3. SAP calls your implementation automatically at the right point\n\n### Finding BAdIs\n\nUse transaction SE18 to search for available BAdIs in a process area.\n\n### Implementing a BAdI\n\n1. Go to SE19 → Create Implementation\n2. Select the BAdI name (e.g., BADI_SD_SALES_ITEM)\n3. SAP generates an implementation class shell\n4. Write your custom logic in the method\n\n### Common BAdIs by Area\n\n| Area | BAdI Example |\n|---|---|\n| Sales | BADI_SD_SALES_ITEM |\n| Materials | MB_DOCUMENT_BADI |\n| FI Posting | AC_DOCUMENT |\n| HR | HRPAD00INFTY |\n\n## User Exits vs BAdIs\n\n- **User Exits** — older approach, function module-based, limited to predefined spots\n- **BAdIs** — modern approach, class-based, multiple implementations possible, filter-capable"
+      }
+    ]
+  }
+];
 
   const course3LessonIds: number[] = [];
 
