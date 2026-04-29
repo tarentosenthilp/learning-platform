@@ -21,7 +21,7 @@ export async function loader({ request }: Route.LoaderArgs) {
   const currentUserId = await getCurrentUserId(request);
 
   if (!currentUserId) {
-    throw data("Select a user from the DevUI panel to view your dashboard.", {
+    throw data("Please log in to view your dashboard.", {
       status: 401,
     });
   }
@@ -270,7 +270,7 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
   if (isRouteErrorResponse(error)) {
     if (error.status === 401) {
       title = "Sign in required";
-      message = typeof error.data === "string" ? error.data : "Please select a user from the DevUI panel.";
+      message = typeof error.data === "string" ? error.data : "Please log in to access this page.";
     } else {
       title = `Error ${error.status}`;
       message = typeof error.data === "string" ? error.data : error.statusText;

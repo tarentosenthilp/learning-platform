@@ -27,7 +27,7 @@ export async function loader({ params, request }: Route.LoaderArgs) {
   const currentUserId = await getCurrentUserId(request);
 
   if (!currentUserId) {
-    throw data("Select a user from the DevUI panel to view student roster.", {
+    throw data("Please log in to view student roster.", {
       status: 401,
     });
   }
@@ -332,7 +332,7 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
       message = "The course you're looking for doesn't exist or may have been removed.";
     } else if (error.status === 401) {
       title = "Sign in required";
-      message = typeof error.data === "string" ? error.data : "Please select a user from the DevUI panel.";
+      message = typeof error.data === "string" ? error.data : "Please log in to access this page.";
     } else if (error.status === 403) {
       title = "Access denied";
       message = typeof error.data === "string" ? error.data : "You don't have permission to view this roster.";

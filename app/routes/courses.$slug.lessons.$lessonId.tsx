@@ -942,7 +942,7 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
       message =
         typeof error.data === "string"
           ? error.data
-          : "Please select a user from the DevUI panel.";
+          : "Please log in to access this page.";
     } else {
       title = `Error ${error.status}`;
       message = typeof error.data === "string" ? error.data : error.statusText;

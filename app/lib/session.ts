@@ -6,7 +6,7 @@ const sessionStorage = createCookieSessionStorage({
     httpOnly: true,
     sameSite: "lax",
     path: "/",
-    secrets: ["cadence-dev-secret"],
+    secrets: [process.env.SESSION_SECRET ?? "cadence-dev-secret"],
   },
 });
 

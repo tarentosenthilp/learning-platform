@@ -4,6 +4,7 @@ import { z } from "zod";
 import type { Route } from "./+types/login";
 import { getUserByEmail } from "~/services/userService";
 import { setCurrentUserId, getCurrentUserId } from "~/lib/session";
+import { isAllowedEmail, ALLOWED_DOMAINS } from "~/lib/auth.server";
 import { parseFormData } from "~/lib/validation";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
@@ -49,6 +50,18 @@ export async function action({ request }: Route.ActionArgs) {
 
   const { email } = parsed.data;
 
+  if (!isAllowedEmail(email)) {
+    return data(
+      {
+        errors: {
+          email: `Only ${ALLOWED_DOMAINS.map((d) => `@${d}`).join(", ")} email addresses are allowed.`,
+        },
+        values: { email },
+      },
+      { status: 400 }
+    );
+  }
+
   const user = getUserByEmail(email);
   if (!user) {
     return data(
@@ -86,7 +99,7 @@ export default function Login() {
           </Link>
           <h1 className="mt-4 text-xl font-semibold">Welcome back</h1>
           <p className="mt-1 text-sm text-muted-foreground">
-            Log in to continue learning
+            Use your Tarento company email to sign in
           </p>
         </div>
 
@@ -104,7 +117,7 @@ export default function Login() {
                   id="email"
                   name="email"
                   type="email"
-                  placeholder="you@example.com"
+                  placeholder="you@tarento.com"
                   defaultValue={actionData?.values?.email ?? ""}
                   aria-invalid={!!actionData?.errors?.email}
                 />

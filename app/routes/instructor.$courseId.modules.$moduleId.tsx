@@ -38,7 +38,7 @@ export async function loader({ params, request }: Route.LoaderArgs) {
   const currentUserId = await getCurrentUserId(request);
 
   if (!currentUserId) {
-    throw data("Select a user from the DevUI panel to manage courses.", {
+    throw data("Please log in to manage courses.", {
       status: 401,
     });
   }

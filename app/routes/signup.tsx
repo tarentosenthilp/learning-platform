@@ -5,10 +5,11 @@ import type { Route } from "./+types/signup";
 import { getUserByEmail, createUser } from "~/services/userService";
 import { UserRole } from "~/db/schema";
 import { setCurrentUserId, getCurrentUserId } from "~/lib/session";
+import { isAllowedEmail, ALLOWED_DOMAINS } from "~/lib/auth.server";
 import { parseFormData } from "~/lib/validation";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
-import { Card, CardContent, CardHeader } from "~/components/ui/card";
+import { Card, CardContent } from "~/components/ui/card";
 
 const signupSchema = z.object({
   name: z.string().trim().min(1, "Name is required."),
@@ -56,6 +57,19 @@ export async function action({ request }: Route.ActionArgs) {
   }
 
   const { name, email } = parsed.data;
+
+  if (!isAllowedEmail(email)) {
+    return data(
+      {
+        errors: {
+          email: `Only ${ALLOWED_DOMAINS.map((d) => `@${d}`).join(", ")} email addresses are allowed.`,
+          name: undefined,
+        },
+        values: { name, email },
+      },
+      { status: 400 }
+    );
+  }
 
   const url = new URL(request.url);
   const redirectTo = url.searchParams.get("redirectTo");
@@ -134,7 +148,7 @@ export default function SignUp() {
                   id="email"
                   name="email"
                   type="email"
-                  placeholder="you@example.com"
+                  placeholder="you@tarento.com"
                   defaultValue={actionData?.values?.email ?? ""}
                   aria-invalid={!!actionData?.errors?.email}
                 />

@@ -5,7 +5,7 @@ import { destroySession } from "~/lib/session";
 export async function action({ request }: Route.ActionArgs) {
   const cookie = await destroySession(request);
 
-  return redirect("/", {
+  return redirect("/login", {
     headers: { "Set-Cookie": cookie },
   });
 }

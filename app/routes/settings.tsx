@@ -31,7 +31,7 @@ export async function loader({ request }: Route.LoaderArgs) {
   const currentUserId = await getCurrentUserId(request);
 
   if (!currentUserId) {
-    throw data("Select a user from the DevUI panel to edit your details.", {
+    throw data("Please log in to access this page.", {
       status: 401,
     });
   }
@@ -179,7 +179,7 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
       message =
         typeof error.data === "string"
           ? error.data
-          : "Please select a user from the DevUI panel.";
+          : "Please log in to access this page.";
     } else if (error.status === 404) {
       title = "User not found";
       message =
