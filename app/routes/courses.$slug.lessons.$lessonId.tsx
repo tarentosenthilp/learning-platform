@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
+import { ProseContent } from "~/components/prose-content";
 import { Link, useFetcher, useNavigate } from "react-router";
 import { toast } from "sonner";
 import type { Route } from "./+types/courses.$slug.lessons.$lessonId";
@@ -394,7 +395,7 @@ export default function LessonViewer({ loaderData }: Route.ComponentProps) {
         enrolled={enrolled}
       />
 
-      <div className="flex-1 p-6 lg:p-8">
+      <div className="flex-1 min-w-0 p-6 lg:p-8">
         {/* Breadcrumb */}
         <nav className="mb-6 text-sm text-muted-foreground">
           <Link to="/courses" className="hover:text-foreground">
@@ -418,7 +419,7 @@ export default function LessonViewer({ loaderData }: Route.ComponentProps) {
           <span className="text-foreground">{lesson.title}</span>
         </nav>
 
-        <div className="mx-auto max-w-4xl">
+        <div>
           {/* Lesson Title */}
           <h1 className="mb-2 text-3xl font-bold">{lesson.title}</h1>
           <div className="mb-6 flex items-center gap-3">
@@ -459,9 +460,9 @@ export default function LessonViewer({ loaderData }: Route.ComponentProps) {
 
           {/* Lesson Content */}
           {contentHtml && (
-            <div
+            <ProseContent
+              html={contentHtml}
               className="prose prose-neutral dark:prose-invert mb-8 max-w-none"
-              dangerouslySetInnerHTML={{ __html: contentHtml }}
             />
           )}
 

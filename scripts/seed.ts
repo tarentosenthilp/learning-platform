@@ -89,7 +89,7 @@ async function seed() {
     .insert(schema.users)
     .values({
       name: "Sanjeev Chandrasekaran",
-      email: "Sanjeev.Chandrasekaran@tarento.com",
+      email: "sanjeev.chandrasekaran@tarento.com",
       role: UserRole.Instructor,
       avatarUrl: "https://api.dicebear.com/9.x/avataaars/svg?seed=sanjeev",
       bio: "Senior TypeScript engineer with 10 years of experience building large-scale web applications. Previously at Stripe and Vercel. Passionate about type safety and developer tooling.",

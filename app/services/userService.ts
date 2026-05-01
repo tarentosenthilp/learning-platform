@@ -1,4 +1,4 @@
-import { eq, inArray } from "drizzle-orm";
+import { eq, inArray, sql } from "drizzle-orm";
 import { db } from "~/db";
 import {
   users,
@@ -27,7 +27,7 @@ export function getUserById(id: number) {
 }
 
 export function getUserByEmail(email: string) {
-  return db.select().from(users).where(eq(users.email, email)).get();
+  return db.select().from(users).where(sql`lower(${users.email}) = lower(${email})`).get();
 }
 
 export function getUsersByRole(role: UserRole) {
