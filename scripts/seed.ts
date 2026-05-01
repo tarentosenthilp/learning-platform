@@ -179,6 +179,7 @@ async function seed() {
       { name: "Data Science", slug: "data-science" },
       { name: "DevOps", slug: "devops" },
       { name: "Marketing", slug: "marketing" },
+      { name: "AI Workflow", slug: "ai-workflow" },
     ])
     .returning()
     .all();
@@ -1325,6 +1326,199 @@ You've completed the Building REST APIs course. You now have the skills to build
 
   console.log(
     `Created course "${course3.title}" with ${c3Modules.length} modules and ${course3LessonIds.length} lessons.`
+  );
+
+  
+  
+  
+  // ─── Course 4 (AI Workflow with Claude Code and gstack) ───
+
+  const [course4] = db
+    .insert(schema.courses)
+    .values({
+      title: "AI Workflow with Claude Code and gstack",
+      slug: "ai-workflow-with-claude-code-and-gstack",
+      description: "In this course, students will learn how to use gstack with Claude Code to build software the way real product teams do. You’ll learn to break work into clear stages - strategy, planning, building, reviewing, testing, shipping, and reflection - and use AI as a structured, cross‑functional team instead of a single chat assistant.",
+      salesCopy: undefined,
+      instructorId: instructor2.id,
+      categoryId: catBySlug["ai-workflow"].id,
+      status: CourseStatus.Published,
+      coverImageUrl: "/images/gstack.jpeg",
+      price: 0,
+      pppEnabled: true,
+      createdAt: daysAgo(30),
+      updatedAt: daysAgo(5),
+    })
+    .returning()
+    .all();
+
+  const c4Modules = [
+  {
+    "title": "GStack",
+    "lessons": [
+      {
+        "title": "What is GStack?",
+        "duration": null,
+        "content": "Most people use AI like this: they paste a big prompt and hope the model does strategy, architecture, coding, testing, and shipping all at once. One-shot prompting usually fails in predictable ways.\n\n1) The AI takes the request too literally.\n2) It doesn’t challenge whether we’re solving the right problem.\n3) QA is mostly skipped.\n4) Shallow product thinking.\n5) Inconsistent reviews\n6) AI take the request too literally instead of reframing the product problem.\n7) AI slop\n8) No architecture review\n\ngstack fixes this by giving Claude Code **explicit cognitive gears** - CEO, engineering manager, reviewer, QA lead, release engineer—each activated with a slash command. \n\ngstack is not just a prompt pack — it is a structured workflow system for Claude Code that splits product thinking, architecture, review, QA, and shipping into distinct skills/roles.\n\ngstack’s value is that it helps Claude Code behave more like a cross-functional team with role-specific cognitive modes: founder/CEO, eng manager, reviewer, QA lead, release engineer, designer, and more.\n\nBy encoding the rigorous product and engineering standards of top-tier Silicon Valley startups into discrete, role-based skills, gstack provides a methodology for transforming a single instance of Claude Code into a cohesive, high-performance engineering team.",
+        "videoUrl": null,
+        "githubRepoUrl": null
+      },
+      {
+        "title": "GStack Philosophy",
+        "duration": null,
+        "content": "The development of gstack was born out of a specific frustration common to solo founders and small engineering teams: the tendency for AI agents to follow instructions with excessive sycophancy, leading to \"feature creep,\" architectural fragility, and \"AI slop\".\n\nWhen a developer asks an AI to \"build a feature,\" the model typically complies immediately without questioning the underlying premise or the long-term maintenance costs. gstack addresses this by introducing structural friction - forcing the AI and the developer to pass through specific \"gates\" before code is ever written.\n\nThe repository contains twenty-three specialized skills and eight power tools that allow Claude to step into roles such as CEO, Designer, Engineering Manager, Release Manager, and Technical Writer. This role-based orchestration ensures that every task is viewed through multiple lenses, preventing the \"drift\" of context that often plagues long-duration coding sessions. The system is built around the \"Think → Plan → Build → Review → Test → Ship → Reflect\" sprint structure, ensuring that nothing falls through the cracks because each skill is designed to feed its output directly into the next stage of the workflow.\n",
+        "videoUrl": null,
+        "githubRepoUrl": "https://github.com/garrytan/gstack"
+      },
+      {
+        "title": "Installation",
+        "duration": null,
+        "content": "Install on your machine\n\nOpen Claude Code and paste this. Claude does the rest.\n\n```\ngit clone --single-branch --depth 1 https://github.com/garrytan/gstack.git ~/.claude/skills/gstack && cd ~/.claude/skills/gstack && ./setup\n```\n\nAfter installation is complete, navigate to the .claude/skills folder.\n\n```\n~ pwd\n/Users/senthilpalanivelu\n\n~ cd .claude/skills\n```\nYou should now see the GStack skills inside the skills folder. The folder may contain multiple installed skills, including the newly added gstack folder.\n```\n~ skills ls\nautoplan              connect-chrome        design-review         guard                 office-hours          plan-tune             setup-deploy\nbenchmark             context-restore       design-shotgun        health                open-gstack-browser   qa                    setup-gbrain\nbenchmark-models      context-save          devex-review          investigate           pair-agent            qa-only               ship\nbrowse                cso                   document-release      land-and-deploy       plan-ceo-review       retro                 skillify\ncanary                debugging             freeze                landing-report        plan-design-review    review                unfreeze\ncareful               design-consultation   gstack                learn                 plan-devex-review     scrape\ncodex                 design-html           gstack-upgrade        make-pdf              plan-eng-review       setup-browser-cookies\n```\nGStack is now installed and ready to use in Claude Code.\n### Verify installation\n\n```\n# Type in Claude Code\n/office-hours\n```\nIf the skill activates and begins asking product questions, you're set.\n",
+        "videoUrl": null,
+        "githubRepoUrl": null
+      }
+    ]
+  },
+  {
+    "title": "Key features & commands",
+    "lessons": [
+      {
+        "title": "Skills & Commands",
+        "duration": null,
+        "content": "23 specialists, 8 power tools — all slash commands, all Markdown, all free\n\nFor this beginner-friendly end-to-end demo, we’ll focus on the following commands and how they work together as one complete workflow.\n\n* <span style=\"color:#3b82f6\">/office-hours</span> - Forces clarity before any code is written, rewrites your design doc, pushes back on your framing.\n* <span style=\"color:#3b82f6\">/plan-ceo-review</span> - Sharpens strategy and ICP.\n* <span style=\"color:#3b82f6\">/plan-eng-review</span> - Locks architecture and test plan.\n* <span style=\"color:#3b82f6\">/review</span> - Catches bugs that pass CI but break in prod.\n* <span style=\"color:#3b82f6\">/qa</span> - Opens a chromium browser and validates UX flows.\n* <span style=\"color:#3b82f6\">/ship</span> - Tests pass, PR opened.\n* <span style=\"color:#3b82f6\">/retro</span> - Captures learnings and seeds next sprint.\n\nEach skill feeds into the next. Nothing falls through the cracks because every step knows what came before it.\nEach skill writes outputs that the next skill reads. This is why nothing falls through the cracks - the workflow is the safety net.\n",
+        "videoUrl": null,
+        "githubRepoUrl": null
+      },
+      {
+        "title": "How Context Carries Forward in GStack",
+        "duration": null,
+        "content": "One of the most powerful ideas behind GStack is that every command builds on the work of the previous one. Instead of isolated prompts, GStack creates a connected workflow where outputs become inputs for the next step.\n\nThis means context is preserved, decisions are remembered, and progress compounds over time.\n\nThe core idea: each skill writes outputs that the next skill reads.\ngstack isn't just a collection of independent slash commands. It's a structured pipeline where every step produces artifacts (files, docs, reports) that downstream steps automatically pick up. You never have to manually re-explain context between steps.\n",
+        "videoUrl": null,
+        "githubRepoUrl": null
+      },
+      {
+        "title": "Mental Model",
+        "duration": null,
+        "content": "| Phase | Mechanism | When / Trigger |\n|---|---|---|\n| Think | <span style=\"color:#3b82f6\">/office-hours</span> | When you have an idea or feature request — always start here |\n| Plan CEO | <span style=\"color:#3b82f6\">/plan-ceo-review</span> | After `/office-hours` — sharpens strategy, ICP, scope, GTM |\n| Plan Eng | <span style=\"color:#3b82f6\">/plan-eng-review</span> | Before implementation — locks architecture and test plan |\n| Build | You + Claude Code, conversationally | Implement iteratively against the approved brief |\n| Review | <span style=\"color:#3b82f6\">/review</span> | Before PR — auto-fixes bugs, flags gaps |\n| Test | <span style=\"color:#3b82f6\">/qa</span> | Against local/staging — real browser, real clicks |\n| Ship | <span style=\"color:#3b82f6\">/ship</span> | When ready — tests pass, coverage audit, PR opened |\n| Reflect | <span style=\"color:#3b82f6\">/retro</span> | After the sprint — reads all artifacts, plans next sprint |",
+        "videoUrl": null,
+        "githubRepoUrl": null
+      },
+      {
+        "title": "Flow",
+        "duration": null,
+        "content": "## How Context Carries Forward in gstack\n\n**The core idea: each skill writes outputs that the next skill reads.**\n\ngstack is not a collection of independent slash commands. It is a structured sprint pipeline where every step produces artifacts — files, documents, and reports — that downstream steps are explicitly instructed to find and read. You never have to manually re-explain context between steps. The experience feels automatic because the skill prompts are carefully written to look for prior outputs before doing any work.\n\n---\n\n### How it works under the hood\n\nEach gstack skill is a markdown prompt file that lives in <span style=\"color:#3b82f6\">~/.claude/skills/gstack/</span>. When you run a command like <span style=\"color:#3b82f6\">/plan-ceo-review</span>, Claude Code loads that skill's prompt, which instructs it to first check for artifacts from prior steps — `DESIGN.md`, prior review outputs, test plans — before proceeding. It is not a rigid pipeline engine passing structured data between steps. It is Claude following well-crafted instructions that make the chaining feel seamless.\n\nThis distinction matters for one practical reason: if you run a later skill without running an earlier one, it will not silently fail — it will just have less context to work with. The pipeline is only as strong as the artifacts that exist on disk.\n\n---\n\n### The full context chain, step by step\n\n**`/office-hours` → writes `DESIGN.md`**\n\nThis is the origin of all context for the sprint. <span style=\"color:#3b82f6\">/office-hours</span> asks you six forcing questions about your idea — who the user is, what pain they feel, what they do today, what the wedge is, what the risks are, and what the narrowest shippable version looks like. It pushes back on your framing, challenges your assumptions, and generates two or three implementation approaches with effort estimates.\n\nEverything it learns gets written into `DESIGN.md` — your product idea, the reframing Claude produced, the answers you gave, the approach you chose, and the recommended wedge. This file becomes the single source of truth for every skill that runs after it.\n\n---\n\n**`/plan-ceo-review` → reads `DESIGN.md`, appends a strategic brief**\n\nThe CEO review skill opens `DESIGN.md` before doing anything else. It does not ask you to re-explain what you are building. It reads the design doc and produces a strategic layer on top — sharpening the ICP, defining the wedge precisely, challenging scope in one of four modes (Expansion, Selective Expansion, Hold Scope, or Reduction), mapping GTM strategy, and identifying the moat.\n\nThe output gets appended back into the document. By the end of this step, `DESIGN.md` contains both the raw product thinking from <span style=\"color:#3b82f6\">/office-hours</span> and the strategic decisions from the CEO review. Everything downstream inherits both.\n\n---\n\n**`/plan-eng-review` → reads `DESIGN.md` + CEO brief, writes architecture and test plan**\n\nThe engineering review reads the full `DESIGN.md` — which now includes the strategic layer — before producing its output. It knows what was decided at the product level and what was decided at the strategy level. It does not have to guess about scope or intent.\n\nFrom that context it produces: ASCII architecture diagrams, data flow maps, state machines for key workflows, a list of hidden assumptions forced into the open, edge cases and failure modes, a test matrix covering unit, integration, and end-to-end coverage, and a rollback plan. All of this is written to disk as structured output.\n\nBy the end of this step, there is a complete brief on disk — product intent, strategic decisions, and engineering architecture — that the Build phase and every subsequent skill can reference.\n\n---\n\n**Build phase → Claude Code executes against the approved brief**\n\nThere is no `/build` command. Build is a conversational phase where you instruct Claude Code to implement against the documents that now exist on disk. Because the architecture is already decided, the data models are already chosen, and the scope is already locked, Claude Code is not guessing. It is executing against a brief — the same way a developer would implement against a spec, not a vague verbal description.\n\nThis is what separates gstack Build from a normal one-shot prompt. The quality of what gets built is downstream of the quality of the plan, and the plan has already been reviewed at three levels — product, strategy, and engineering — before a line of code is written.\n\n---\n\n**`/review` → reads the diff and the test plan from `/plan-eng-review`**\n\nThe review skill does not just read your code. It reads the diff against the test plan and architecture that <span style=\"color:#3b82f6\">/plan-eng-review</span> produced. It knows what was supposed to be built, what the expected test coverage was, what the failure modes were flagged as, and what the edge cases were identified as.\n\nThis is why <span style=\"color:#3b82f6\">/review</span> catches things that normal CI misses — it compares code against stated intent, not just against syntax rules or existing tests. It auto-fixes bugs it is confident about, flags others for your decision with a clear explanation, and identifies completeness gaps where the implementation diverged from the plan.\n\n---\n\n**`/qa` → reads the test matrix and picks up regression tests from `/review`**\n\nThe QA skill reads the test matrix from <span style=\"color:#3b82f6\">/plan-eng-review</span> to know what flows need to be verified. Every bug that <span style=\"color:#3b82f6\">/review</span> auto-fixed or flagged comes with a regression test. <span style=\"color:#3b82f6\">/qa</span> runs those tests in a real Chromium browser — not mocks, not unit test assertions, but actual clicks through your actual UI.\n\nWhen <span style=\"color:#3b82f6\">/qa</span> finds and fixes a new bug, it generates a regression test for that bug too. By the time this step is done, the test suite is larger than when Build finished, and every fix is covered.\n\n---\n\n**`/ship` → reads everything before opening the PR**\n\nThe ship skill reads across all prior artifacts before it does anything. It checks that review findings are resolved, QA bugs are fixed, test coverage meets the threshold established in the engineering plan, and documentation is updated to match what was actually shipped. It runs the full test suite, syncs main, and only then opens the PR.\n\nIt also auto-invokes <span style=\"color:#3b82f6\">/document-release</span> — which reads every doc file in your project, cross-references the diff, and updates anything that drifted. README, ARCHITECTURE.md, CONTRIBUTING.md, CLAUDE.md — all kept current without an extra command.\n\n---\n\n**`/retro` → reads all sprint artifacts**\n\nThe retrospective skill reads the full chain: the design doc, the CEO and engineering plans, the git log, the QA report, and the review findings. It knows what was planned at the start of the sprint and what actually shipped at the end. It produces a genuinely informed retrospective — not a generic \"what went well / what didn't\" template, but a specific breakdown of how intent matched execution, what the test health trend looks like, and what the next sprint should prioritize based on what was learned.\n\n---\n\n### Why this matters\n\nWithout this, every AI interaction is stateless. You re-explain context every time. Things that were decided in one conversation get forgotten in the next. The AI optimizes for the prompt in front of it rather than the original intent of the sprint.\n\ngstack solves this by making context a first-class artifact of the workflow. The design doc, the CEO brief, the architecture, the test plan — these are files on disk that every subsequent skill is explicitly instructed to read. The pipeline is the safety net. Nothing falls through the cracks because the system always knows what was decided, why it was decided, and what the next step needs to honor.\n\nThe difference is between talking to Claude once and working with a coordinated team that shares a living project brief — one that gets richer and more specific at every stage of the sprint.",
+        "videoUrl": null,
+        "githubRepoUrl": null
+      }
+    ]
+  },
+  {
+    "title": "The Sprint Lifecycle: A Step-by-Step Orchestration",
+    "lessons": [
+      {
+        "title": "Think",
+        "duration": null,
+        "content": "## /office-hours — Strategic Clarity First\n\nThe sprint begins with the `/office-hours` skill, which acts as a YC-style partner for product discovery. Instead of asking \"what do you want to build,\" the agent asks six forcing questions designed to expose the reality of demand and the status quo. These questions—Demand Reality, Status Quo, Desperate Specificity, Narrowest Wedge, Observation/Surprise, and Future-Fit—are intended to be uncomfortable, forcing the developer to identify the exact human being who needs the product and why current solutions are failing.\n\nThe output of this phase is a structured Design Doc written to `~/.gstack/projects/`.\n\n### Create an empty project directory\n```\nmkdir clarity-ai\ncd clarity-ai\n```\nOpen claude code in your terminal\n```\nclaude\n```\nType '/' and search for the command office-hours\n```\n/office-hours\n\nBuild a tool that allows users to upload business documents (e.g., strategy document, annual reports, business plans) and automatically analyze the content to extract key strategic business goals. The solution should support document upload, text extraction, AI-based goal identification, ranking of the most relevant goals, editable suggested goals, and exportable results.\n```\n#### First question\nBefore we dig in — what's your goal with this?\n```\n  1. Building a startup                                         \n     This is (or could become) a real company — you want customers, revenue, and possibly funding.\n  2. Intrapreneurship                              \n     Internal project at a company — you need to ship fast and get stakeholder buy-in.           \n  3. Hackathon / demo\n     Time-boxed build — the goal is to impress and ship something functional quickly.\n❯  4. Having fun / side project\n     Creative outlet, learning exercise, or just vibing — no pressure to monetize.\n  5. Type something.\n```\n#### Second question\nWhat’s the coolest version of this tool? What feature or behavior would make someone say ‘whoa’ when they see it?\n```\n❯ 1. Side-by-side comparison                                    \n     Upload two documents (e.g., last year’s plan vs this year’s) and see which goals changed, what got dropped, and what’s new — a visual strategic diff.\n  2. Goal conflict detector                         \n     The AI notices when extracted goals contradict each other or compete for the same resources — ‘Goal A wants to reduce headcount; Goal B wants to expand\n      to 3 new markets’.\n  3. Interactive goal tree\n     Goals are auto-organized into a hierarchy — top-level vision, supporting objectives, tactical goals — with drag-and-drop editing.\n  4. Let me describe my own 'whoa' moment\n     I have a specific vision for what makes this delightful that’s not listed here.\n  5. Type something.\n```\n#### Third question\nWho’s the person you’d show this to first? Who gets the most value from it?\n```\n  1. Strategy consultant\n     Someone who gets handed a stack of client documents and needs to synthesize strategic direction fast. Time is literally money.\n  2. Internal strategy / ops lead                             \n     Chief of Staff, Head of Strategy, or BizOps — someone who tracks whether the company is actually executing on its stated goals.\n  3. Investor / VC analyst\n     Reads hundreds of decks and annual reports. Needs to extract what a company’s actual priorities are vs what the PR says they are.\n❯ 4. Myself — I have this problem personally\n     I work with these documents myself and I’d use this tool regularly.\n  5. Type something.\n```\n#### Fourth question\nIf you had unlimited time, what’s the 10x version of this tool? What does it become?\n```\n  1. Goal tracking over time                            \n     Upload quarterly reports, and the tool tracks whether stated goals are actually being achieved — a strategic accountability layer across time.\n❯ 2. Cross-company benchmarking\n     Compare your company’s goals against competitors or peers in the same industry. Are you chasing the same things? Missing something obvious?\n  3. Goal-to-action translator\n     After extracting goals, the AI suggests specific initiatives, KPIs, and projects that would move each goal forward.\n  4. Natural language Q&A on your strategy docs\n     Chat interface where you can ask ‘what was our top priority in 2023?’ or ‘when did we stop mentioning market expansion?’ across a library of documents.\n  5. Type something.\n```\n#### Fifth question\nCan I search for what’s already out there in this space to inform the design?\n```\n❯ 1. Yes, search away (Recommended)\n     I’ll use generic category terms to find existing tools, libraries, and approaches. Takes about 30 seconds.\n  2. Skip — keep it private\n     Proceed with only my existing knowledge. No external search.\n  3. Type something.\n```\n#### Sixth question\nWhich approach do you want to build?\n```\n❯ 1. B — Clean Architecture (Recommended)\n     Next.js + Vercel AI SDK + streaming + semantic diff. Ships in 3-5 days. The right foundation for the 10x vision.\n  2. A — Weekend Ship\n     Vite SPA, client-side only, ships in 1-2 days. Perfect if you want something running today. \n  3. C — Single HTML File\n     Zero infrastructure, zero deploy. The tool is a file you can share. Novel and self-contained.\n  4. Hybrid B+A — Next.js but no deploy needed\n     Next.js architecture with structured output, but runs locally only. Best of both worlds for a personal tool.\n  5. Type something.\n```\nDesign doc saved to: ~/.gstack/projects/clarity-ai/senthilpalanivelu-unknown-design-20260501-120901.md\n\nWhat's next:\n```    \n- /plan-ceo-review — If you want to pressure-test whether this platform is the highest-leverage thing you could be building right now.\n- /plan-eng-review — Lock in the architecture. Takes the design doc and produces a detailed implementation plan with data flow diagrams, edge cases, and test strategy. Run this before you write a line of code.                         \n```\n\n",
+        "videoUrl": null,
+        "githubRepoUrl": null
+      },
+      {
+        "title": "Think: Example Inputs",
+        "duration": null,
+        "content": "Example 1\n```\n/Office-hours Build a tool that allows users to upload business documents (e.g., strategy document, annual reports, business plans) and automatically analyze the content to extract key strategic business goals. The solution should support document upload, text extraction, AI-based goal identification, ranking of the most relevant goals, editable suggested goals, and exportable results.\n```\n\nExample 2\n```\n/office-hours I want to build a tool that helps SAP CPI developers monitor their message flows and certificates. Currently, they have to log into five different BTP cockpits to see if something failed. It's a major pain point during month-end closes\n```\n\nExample 3\n```\n/office-hours We want to build an SAP CPI monitoring platform for enterprises to track integration failures, SLA breaches, alerts, dashboards, and root-cause analytics.\n\nTarget users:\n- SAP integration support teams\n- Enterprise middleware ops\n- IT leaders who need SLA visibility\n\nPlease challenge the framing, identify the narrowest wedge, define the MVP, and write a design doc.\n```\n\nExample 4\n```\n/office-hours Build an internal employee learning platform where users can sign up with company email, enroll in courses (e.g., SAP ABAP Fundamentals, Intro to Claude Code), and complete modules/lessons stored in a database. Each lesson should support text, GitHub links, URLs, and YouTube videos. Include role-based access for admin, instructor, and student, plus gamification features such as points, levels, streaks, quiz rewards, leaderboards, progress dashboards, and course completion tracking. I don’t have much knowledge about the tech stack required to implement this, so please recommend the best modern stack, database schema, core UI pages, and a simple step-by-step MVP build plan for a beginner.\n```\n\n",
+        "videoUrl": null,
+        "githubRepoUrl": null
+      },
+      {
+        "title": "Plan 1 - ceo review",
+        "duration": null,
+        "content": "## /plan-ceo-review — Strategy Sharpening\nNext, the CEO review challenges the scope and ambition of the design doc. Once the vision is clear, the plan must pass through two critical gates: the CEO review and the Engineering review.\nHere We'will look at the CEO review\n```\n/plan-ceo-review  [reads DESIGN.md from /office-hours automatically]\n```\n/plan-ceo-review: This skill analyzes the plan through four lenses: Expansion, Selective Expansion, Hold Scope, and Reduction. It acts as a skeptical product strategist, challenging premises and asking whether the real job is bigger than the initial request. \n\n#### First question\nWhich implementation approach should the CEO review be based on? \n```\n❯ 1. Stick with Approach B (Recommended)      \n     Next.js 14 + Vercel AI SDK + streaming + Levenshtein comparison. Already designed, prompts written. Build everything from scratch.\n  2. Start smaller: extraction-only first        \n     Build and validate single-doc extraction quality before adding the comparison engine. Compare in week 2. Reduces first-week scope by ~40%.\n  3. Use document AI API for parsing\n     Use LlamaParse or Unstructured.io for extraction, only build the diff/UI layer. Faster to first value but adds external dependency and per-call cost.\n  4. Type something.\n```\n#### Second question\nCherry-pick 2: Domain-specific extraction prompts (~3 hrs, S-M effort) \n```\n❯ 1. Add to scope                                      \n     Add a domain selector (Healthcare/SaaS/Finance/General). Each domain has a tuned extraction prompt. Extraction quality improves for specialized documents.\n  2. Defer to TODOS.md\n     Generic prompt first. Add domain tuning when you notice specific misses.\n  3. Skip\n     Generic prompt only, no domain specialization.\n  4. Type something.\n```\n#### Third question\nCherry-pick 3: Goal confidence reasoning tooltip (~1 hr, S effort)\n```\n❯ 1. Add to scope\n     Add reasoning: string to GoalSchema. AI explains why each goal scored high/low. Shown on hover over the score bar.\n  2. Defer to TODOS.md\n     Plain score bar for v1. Add reasoning later if scores feel opaque.                             \n  3. Skip\n     Score bar only, no explanation.\n  4. Type something.\n```\n```\n...\n...\n...\n...\n...\n```\n```\nWhat changed in this review:                                                                   \n- GoalSchema gained reasoning: string.max(150), evidence_quote: string.max(500), and Regulatory as a 5th category\n- Extraction prompt updated with reasoning instruction, Regulatory category, and prompt injection defense\n- Domain flow fully specified: <DomainSelector> per upload card → POST body → buildExtractionPrompt(domain) in lib/prompts.ts\n- Cross-domain comparison: 0.35 threshold with domain_mismatch flag + shipping gate test\n- Large-doc handling: parallel Promise.all section extraction with 8-section cap\n- Shared types: lib/types.ts for Domain, ExtractedDocument, ComparisonResult\n- UX: Doc A disabled while streaming; Doc B disabled until Doc A completes; extraction complete banner; reasoning tooltip on importance bar\n```\nWhen you run /plan-ceo-review, Claude will walk you through a series of questions one by one — about your ICP, your wedge, your scope, your GTM, and your moat. Do not skip these. Answer every question thoughtfully and completely before moving on.\nThis is where strategic clarity is established. If you rush through or give vague answers, the output will be shallow and the engineering plan downstream will be built on weak foundations. The whole point of this step is to force the hard thinking before code is written — not after. Take your time here. The questions feel uncomfortable on purpose. That discomfort is the value.\n```\nNext actions:\n```\n/plan-eng-review — Catches build config, dependency conflicts (pdf-parse + edge runtime), and test runner setup before you write any code\n```\n\n\n\n",
+        "videoUrl": null,
+        "githubRepoUrl": null
+      },
+      {
+        "title": "Plan 2 - eng review",
+        "duration": null,
+        "content": "/plan-eng-review: This skill functions as an Engineering Manager, locking in the technical foundation. It focuses on system boundaries, data flows, state machines, and failure modes. It mandates a \"boring by default\" approach, encouraging the use of proven technologies unless the project explicitly requires an \"innovation token\".\n\nThe /plan-eng-review skill specifically writes a test plan that outlines the required unit tests, integration tests, and visual QA checkpoints. This test plan is essential for the later stages of the sprint, as it provides a deterministic checklist for the QA process.\n\n```\n/plan-eng-review\n```\n#### First question\nD1 — Proceed with full scope or trim for faster first ship?\n```\nRecommendation: A — full scope, because the CEO review already validated all these pieces and they’re well-specified.\n\nNote: options differ in kind, not coverage — no completeness score.\n❯ 1. Full scope as designed (Recommended)\n     Build exactly what the design doc and CEO plan specify: PDF + DOCX + TXT parsing, Edge streaming extraction, Node.js PDF export, hierarchical large-doc\n      handling, domain prompts, comparison with domain_mismatch. (human: ~4-5 days / CC: ~3-4 hours)\n  2. Lean v1: PDF-only, CSV-only, no hierarchical\n     PDF + TXT only (drop mammoth/DOCX), CSV export only (drop @react-pdf/renderer + export-pdf route), cap docs at 100 pages (drop hierarchical section\n     splitter). Core strategic diff fully works. Adds DOCX/PDF-export/long-docs in v1.1. (human: ~2-3 days / CC: ~1-2 hours)\n  3. Type something.\n```\n```\nAccept the recommendations...\n...\n...\n...\n...\n```\n```\nNext action: npx create-next-app@latest clarity-ai --typescript --tailwind --app — the spec is complete.\n```\n",
+        "videoUrl": null,
+        "githubRepoUrl": null
+      },
+      {
+        "title": "Build",
+        "duration": null,
+        "content": "Claude Code now implements the plan, following the following the design doc at `~/.gstack/projects/gstack-demo/senthilpalanivelu-unknown-design-20260430-141141.md.`\n```\nnpx create-next-app@latest clarity-ai --typescript --tailwind --app\n```\n\n",
+        "videoUrl": null,
+        "githubRepoUrl": null
+      },
+      {
+        "title": "Review",
+        "duration": null,
+        "content": null,
+        "videoUrl": null,
+        "githubRepoUrl": null
+      },
+      {
+        "title": "Test",
+        "duration": null,
+        "content": null,
+        "videoUrl": null,
+        "githubRepoUrl": null
+      },
+      {
+        "title": "Ship",
+        "duration": null,
+        "content": null,
+        "videoUrl": null,
+        "githubRepoUrl": null
+      },
+      {
+        "title": "Reflect",
+        "duration": null,
+        "content": null,
+        "videoUrl": null,
+        "githubRepoUrl": null
+      }
+    ]
+  }
+];
+
+  const course4LessonIds: number[] = [];
+
+  for (let mi = 0; mi < c4Modules.length; mi++) {
+    const modData = c4Modules[mi];
+    const [mod] = db
+      .insert(schema.modules)
+      .values({
+        courseId: course4.id,
+        title: modData.title,
+        position: mi + 1,
+        createdAt: daysAgo(30 - mi),
+      })
+      .returning()
+      .all();
+
+    for (let li = 0; li < modData.lessons.length; li++) {
+      const lessonData = modData.lessons[li];
+      const [lesson] = db
+        .insert(schema.lessons)
+        .values({
+          moduleId: mod.id,
+          title: lessonData.title,
+          content: lessonData.content,
+          videoUrl: lessonData.videoUrl || null,
+          githubRepoUrl: lessonData.githubRepoUrl || null,
+          position: li + 1,
+          durationMinutes: lessonData.duration,
+          createdAt: daysAgo(30 - mi),
+        })
+        .returning()
+        .all();
+      course4LessonIds.push(lesson.id);
+    }
+  }
+
+  console.log(
+    `Created course "${course4.title}" with ${c4Modules.length} modules and ${course4LessonIds.length} lessons.`
   );
 
   // ─── Quizzes ───

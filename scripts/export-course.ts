@@ -3,9 +3,23 @@ import fs from "fs";
 
 const sqlite = new Database("data.db");
 
-const courseId = 4;
+const courseId = parseInt(process.argv[2]) || 4;
 
 const course = sqlite.prepare("SELECT * FROM courses WHERE id = ?").get(courseId);
+if (!course) {
+  console.error(`Course with ID ${courseId} not found.`);
+  process.exit(1);
+}
+
+const category = sqlite.prepare("SELECT slug FROM categories WHERE id = ?").get(course.category_id);
+if (!category) {
+  console.error(`Category with ID ${course.category_id} not found.`);
+  process.exit(1);
+}
+
+const instructor = sqlite.prepare("SELECT name FROM users WHERE id = ?").get(course.instructor_id);
+const instructorVar = instructor?.name.includes("Sanjeev") ? "instructor1" : "instructor2";
+
 const modules = sqlite.prepare("SELECT * FROM modules WHERE course_id = ? ORDER BY position").all(courseId);
 
 const modulesWithLessons = modules.map(m => {
@@ -15,42 +29,45 @@ const modulesWithLessons = modules.map(m => {
     lessons: lessons.map(l => ({
       title: l.title,
       duration: l.duration_minutes,
-      content: l.content
+      content: l.content,
+      videoUrl: l.video_url,
+      githubRepoUrl: l.github_repo_url
     }))
   };
 });
 
 let output = `
-  // ─── Course 3 (SAP ABAP) ───
+  // ─── Course ${courseId} (${course.title}) ───
 
-  const [course3] = db
+  const [course${courseId}] = db
     .insert(schema.courses)
     .values({
       title: ${JSON.stringify(course.title)},
       slug: ${JSON.stringify(course.slug)},
       description: ${JSON.stringify(course.description)},
       salesCopy: ${JSON.stringify(course.salesCopy)},
-      instructorId: instructor1.id,
-      categoryId: catBySlug["programming"].id,
+      instructorId: ${instructorVar}.id,
+      categoryId: catBySlug[${JSON.stringify(category.slug)}].id,
       status: CourseStatus.Published,
       coverImageUrl: ${JSON.stringify(course.cover_image_url)},
       price: ${course.price},
+      pppEnabled: ${course.ppp_enabled === 1},
       createdAt: daysAgo(30),
       updatedAt: daysAgo(5),
     })
     .returning()
     .all();
 
-  const c3Modules = ${JSON.stringify(modulesWithLessons, null, 2)};
+  const c${courseId}Modules = ${JSON.stringify(modulesWithLessons, null, 2)};
 
-  const course3LessonIds: number[] = [];
+  const course${courseId}LessonIds: number[] = [];
 
-  for (let mi = 0; mi < c3Modules.length; mi++) {
-    const modData = c3Modules[mi];
+  for (let mi = 0; mi < c${courseId}Modules.length; mi++) {
+    const modData = c${courseId}Modules[mi];
     const [mod] = db
       .insert(schema.modules)
       .values({
-        courseId: course3.id,
+        courseId: course${courseId}.id,
         title: modData.title,
         position: mi + 1,
         createdAt: daysAgo(30 - mi),
@@ -66,20 +83,22 @@ let output = `
           moduleId: mod.id,
           title: lessonData.title,
           content: lessonData.content,
+          videoUrl: lessonData.videoUrl || null,
+          githubRepoUrl: lessonData.githubRepoUrl || null,
           position: li + 1,
           durationMinutes: lessonData.duration,
           createdAt: daysAgo(30 - mi),
         })
         .returning()
         .all();
-      course3LessonIds.push(lesson.id);
+      course${courseId}LessonIds.push(lesson.id);
     }
   }
 
   console.log(
-    \`Created course "\${course3.title}" with \${c3Modules.length} modules and \${course3LessonIds.length} lessons.\`
+    \`Created course "\${course${courseId}.title}" with \${c${courseId}Modules.length} modules and \${course${courseId}LessonIds.length} lessons.\`
   );
 `;
 
 fs.writeFileSync("course-export.ts", output);
-console.log("Exported to course-export.ts");
+console.log(`Exported course ${courseId} to course-export.ts`);
