@@ -15,7 +15,7 @@ npm run db:generate  # Generate new migration from schema changes
 npm run db:seed      # Seed database (scripts/seed.ts)
 ```
 
-## Architecture
+### Architecture
 
 **Framework**: React Router v7 with SSR enabled. Routes live in `app/routes/` using file-based routing declared in `app/routes.ts`. The main app shell is `app/routes/layout.app.tsx`, which loads current user, recent courses, and PPP tier info server-side, then renders the Sidebar and nested Outlet.
 
